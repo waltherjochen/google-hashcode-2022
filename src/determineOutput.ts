@@ -10,16 +10,22 @@ export function determineOutput(context: Context): Output {
     const assignments: Assingment[] = [];
 
     for (let project of context.projects) {
-        const contributors: Contributor[] = context.contributors.filter(contributor => {
-            const skill = project.skills.filter(s => s.name == contributor.skill.name);
+        let contributors: Contributor[] = [];
 
-            if (skill != null && skill.length === 1) {
-                return contributor.skill.level >= skill[0].level;
+        for (const skill of project.skills) {
+            const filteredContributors = context.contributors.filter(contributor => {
+                const contributorsAlreadyAdded = contributors.map(contributor => contributor.name);
+                return skill.name == contributor.skill.name && contributor.skill.level >= skill.level && !contributorsAlreadyAdded.includes(contributor.name);
+            });
+
+            if (filteredContributors.length == 1) {
+                contributors.push(filteredContributors[0]);
+            } else {
+                break;
             }
-            return false;
-        });
+        }
 
-        if (contributors.length > 0) {
+        if (contributors.length == project.roles) {
             const assignment: Assingment = {
                 projectName: project.name,
                 contributors
@@ -27,7 +33,6 @@ export function determineOutput(context: Context): Output {
 
             assignments.push(assignment);
         }
-
     }
 
     const outputAssignment: OutputAssignment = {
@@ -37,4 +42,8 @@ export function determineOutput(context: Context): Output {
     output.addOutput(outputAssignment);
 
     return output;
+}
+
+function getUniqueListBy(arr, key) {
+    return [...new Map(arr.map(item => [item[key], item])).values()]
 }

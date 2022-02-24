@@ -44,17 +44,17 @@ export function parseInput(fileName: string): Context {
 
         const roles = Number(lineProject[4]);
 
-        const skills: Skill[] = [];
+        const projectSkills: Skill[] = [];
 
-        for (let j = i; j < i + roles; j++) {
-            const skillLine = lines[j].split(' ');
+        for (let j = 0; j < roles; j++) {
+            const skillLine = lines[lineNumber + j + 1].split(' ');
 
-            const skill: Skill = {
+            const projectSkill: Skill = {
                 name: skillLine[0],
                 level: Number(skillLine[1]),
             };
 
-            skills.push(skill);
+            projectSkills.push(projectSkill);
         }
 
         const project: Project = {
@@ -63,7 +63,7 @@ export function parseInput(fileName: string): Context {
             score: Number(lineProject[2]),
             bestBefore: Number(lineProject[3]),
             roles,
-            skills: skills,
+            skills: projectSkills,
         };
 
         projects.push(project);
