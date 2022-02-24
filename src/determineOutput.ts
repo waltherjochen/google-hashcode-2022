@@ -4,6 +4,9 @@ import {Output} from "./Output";
 export function determineOutput(context: Context): Output {
     const output: Output = new Output();
 
+    console.log('contributors', context.contributors.length)
+    console.log('projects', context.projects.length)
+
     // const outputInteractions: OutputIntersection[] = [];
     //
     // context.cars.sort((a, b) => {
