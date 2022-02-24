@@ -13,7 +13,7 @@ export class Output {
 
         for (const assignment of this.outputAssignment.assignments) {
             lines.push(`${assignment.projectName}`);
-            lines.push(`${assignment.contributors.join(' ')}`);
+            lines.push(`${assignment.contributors.map(contributor => contributor.name).join(' ')}`);
         }
 
         return lines.join('\n');

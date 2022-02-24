@@ -19,12 +19,15 @@ export function determineOutput(context: Context): Output {
             return false;
         });
 
-        const assignment: Assingment = {
-            projectName: project.name,
-            contributors
+        if (contributors.length > 0) {
+            const assignment: Assingment = {
+                projectName: project.name,
+                contributors
+            }
+
+            assignments.push(assignment);
         }
 
-        assignments.push(assignment);
     }
 
     const outputAssignment: OutputAssignment = {

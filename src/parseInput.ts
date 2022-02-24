@@ -12,7 +12,7 @@ export function parseInput(fileName: string): Context {
 
     const firstLine = lines[0].split(' ');
     const maxContributors: number = Number(firstLine[0]);
-    const maxProjects: number = Number(firstLine[0]);
+    const maxProjects: number = Number(firstLine[1]);
 
     const contributors: Contributor[] = [];
     const projects: Project[] = [];
@@ -20,28 +20,29 @@ export function parseInput(fileName: string): Context {
     let lineNumber = 1;
 
     for (let i = 0; i < maxContributors; i++) {
-        const line = lines[lineNumber].split(' ');
+        const lineCon = lines[lineNumber].split(' ');
         const skillLine = lines[lineNumber + 1].split(' ');
+        const numSkills = Number(lineCon[1]);
 
         const skill: Skill = {
             name: skillLine[0],
-            skillLevel: Number(skillLine[1]),
+            level: Number(skillLine[1]),
         };
 
         const contributor: Contributor = {
-            name: line[0],
-            numSkills: Number(line[1]),
+            name: lineCon[0],
+            numSkills,
             skill
         };
         contributors.push(contributor);
 
-        lineNumber += 2;
+        lineNumber += (1 + numSkills);
     }
 
     for (let i = 0; i < maxProjects; i++) {
-        const line = lines[i].split(' ');
+        const lineProject = lines[lineNumber].split(' ');
 
-        const roles = Number(line[4]);
+        const roles = Number(lineProject[4]);
 
         const skills: Skill[] = [];
 
@@ -50,24 +51,24 @@ export function parseInput(fileName: string): Context {
 
             const skill: Skill = {
                 name: skillLine[0],
-                skillLevel: Number(skillLine[1]),
+                level: Number(skillLine[1]),
             };
 
             skills.push(skill);
         }
 
         const project: Project = {
-            name: line[0],
-            days: Number(line[1]),
-            score: Number(line[2]),
-            bestBefore: Number(line[3]),
+            name: lineProject[0],
+            days: Number(lineProject[1]),
+            score: Number(lineProject[2]),
+            bestBefore: Number(lineProject[3]),
             roles,
             skills: skills,
         };
 
         projects.push(project);
 
-        lineNumber += roles;
+        lineNumber += (1 + roles);
     }
 
     return new Context(
