@@ -15,7 +15,9 @@ export function determineOutput(context: Context): Output {
         for (const skill of project.skills) {
             const filteredContributors = context.contributors.filter(contributor => {
                 const contributorsAlreadyAdded = contributors.map(contributor => contributor.name);
-                return skill.name == contributor.skill.name && contributor.skill.level >= skill.level && !contributorsAlreadyAdded.includes(contributor.name);
+                const isSkill = skill.name == contributor.skill.name && !contributorsAlreadyAdded.includes(contributor.name);
+                contributor.levelUp = isSkill && contributor.skill.level == skill.level;
+                return isSkill && contributor.skill.level >= skill.level;
             });
 
             if (filteredContributors.length == 1) {
@@ -32,6 +34,15 @@ export function determineOutput(context: Context): Output {
             }
 
             assignments.push(assignment);
+
+            for (const contributor of contributors) {
+                if (contributor.levelUp) {
+                    const contextContributors = context.contributors.filter(c => c.name != contributor.name);
+                    contributor.skill.level++;
+                    contextContributors.push(contributor);
+                    context.contributors = contextContributors;
+                }
+            }
         }
     }
 
@@ -42,8 +53,4 @@ export function determineOutput(context: Context): Output {
     output.addOutput(outputAssignment);
 
     return output;
-}
-
-function getUniqueListBy(arr, key) {
-    return [...new Map(arr.map(item => [item[key], item])).values()]
 }

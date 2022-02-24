@@ -4,7 +4,7 @@ import {Project} from "./Project";
 export class Context {
 
     constructor(
-        public readonly contributors: Contributor[],
+        public contributors: Contributor[],
         public readonly projects: Project[],
     ) {
     }

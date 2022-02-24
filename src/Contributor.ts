@@ -6,6 +6,7 @@ export class Contributor {
         public name: string,
         public numSkills: number,
         public skill: Skill,
+        public levelUp?: boolean,
     ) {
     }
 
