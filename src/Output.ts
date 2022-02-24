@@ -1,23 +1,20 @@
-import {OutputIntersection} from "./OutputIntersection";
+import {OutputAssignment} from "./OutputAssignment";
 
 export class Output {
 
-    private intersections: OutputIntersection[] = [];
+    private outputAssignment: OutputAssignment;
 
-    public addIntersections(intersections: OutputIntersection[]): void {
-        this.intersections = intersections;
+    public addOutput(output: OutputAssignment): void {
+        this.outputAssignment = output;
     }
 
     public toString(): string {
-        const lines: string[] = [`${this.intersections.length}`];
+        const lines: string[] = [`${this.outputAssignment.assignments.length}`];
 
-        // for (const intersection of this.intersections) {
-        //     lines.push(`${intersection.id}`);
-        //     lines.push(`${intersection.trafficLights.length}`);
-        //     for (const trafficLight of intersection.trafficLights) {
-        //         lines.push(`${trafficLight.streetName} ${trafficLight.duration}`);
-        //     }
-        // }
+        for (const assignment of this.outputAssignment.assignments) {
+            lines.push(`${assignment.projectName}`);
+            lines.push(`${assignment.contributors.join(' ')}`);
+        }
 
         return lines.join('\n');
     }

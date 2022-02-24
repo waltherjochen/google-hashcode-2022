@@ -17,16 +17,27 @@ export function parseInput(fileName: string): Context {
     const contributors: Contributor[] = [];
     const projects: Project[] = [];
 
-    for (let i = 1; i <= maxContributors; i++) {
-        const line = lines[i].split(' ');
+    let lineNumber = 1;
+
+    for (let i = 0; i < maxContributors; i++) {
+        const line = lines[lineNumber].split(' ');
+        const skillLine = lines[lineNumber + 1].split(' ');
+
+        const skill: Skill = {
+            name: skillLine[0],
+            skillLevel: Number(skillLine[1]),
+        };
+
         const contributor: Contributor = {
             name: line[0],
             numSkills: Number(line[1]),
+            skill
         };
         contributors.push(contributor);
+
+        lineNumber += 2;
     }
 
-    let lineNumber = maxContributors + 1;
     for (let i = 0; i < maxProjects; i++) {
         const line = lines[i].split(' ');
 
