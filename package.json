@@ -1,0 +1,21 @@
+{
+  "name": "node_ts",
+  "version": "1.0.0",
+  "description": "a template just for me",
+  "main": "bin/app.js",
+  "scripts": {
+    "start": "yarn compile && node bin/app.js",
+    "compile": "tsc",
+    "dev": "nodemon -e ts --exec \"yarn start\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "consola": "^2.11.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "nodemon": "^1.19.4",
+    "typescript": "^3.7.2"
+  }
+}
